@@ -1,14 +1,14 @@
-import { Component } from 'react';
+export const ImageGalleryItem = ({ materials }) => {
+  return (
+    <>
+      <>{materials}</>
 
-class ImageGalleryItem extends Component {
-  render() {
-    return (
-      <li>
-        <p>{this.props.searchName}</p>
-        <img src="" alt="" />
-      </li>
-    );
-  }
-}
-
-export default ImageGalleryItem;
+      {/* {materials.map(material => (
+        <li>
+          <p>{material.id}</p>
+          <img src="" alt="" />
+        </li>
+      ))} */}
+    </>
+  );
+};

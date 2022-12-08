@@ -13,7 +13,6 @@ class Searchbar extends Component {
     event.preventDefault();
 
     if (this.state.imageName.trim() === '') {
-      console.log('Put name');
       return;
     }
     this.props.onSubmit(this.state.imageName);

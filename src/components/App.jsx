@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ImageGallery from './ImageGallery/ImageGallery';
 import { Modal } from './Modal/Modal';
 import Searchbar from './Searchbar/Searchbar';
+//import { createGallery } from './services/api';
 
 class App extends Component {
   state = {
