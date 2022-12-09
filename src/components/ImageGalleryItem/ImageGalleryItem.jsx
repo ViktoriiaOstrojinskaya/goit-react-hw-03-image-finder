@@ -1,12 +1,10 @@
-export const ImageGalleryItem = ({ materials }) => {
+export const ImageGalleryItem = images => {
   return (
     <>
-      <>{materials}</>
-
-      {/* {materials.map(material => (
-        <li>
-          <p>{material.id}</p>
-          <img src="" alt="" />
+      <p>{images}</p>
+      {/* {images.map(image => (
+        <li key={image.id}>
+          <img src={image.webformatURL} alt={image.tags} />
         </li>
       ))} */}
     </>
