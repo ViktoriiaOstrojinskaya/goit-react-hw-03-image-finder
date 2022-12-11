@@ -1,6 +1,6 @@
 //import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
-//import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import React, { Component } from 'react';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -11,10 +11,17 @@ import Searchbar from './Searchbar/Searchbar';
 class App extends Component {
   state = {
     imageName: '',
+    page: 1,
   };
 
   handleSearchBarSubmit = imageName => {
     this.setState({ imageName });
+  };
+
+  loadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
   };
 
   render() {
@@ -33,7 +40,9 @@ class App extends Component {
 
         <ImageGallery searchName={this.state.imageName} />
         <Modal />
-        <button type="button">Load more</button>
+        <button type="button" onClick={this.loadMore}>
+          Load more
+        </button>
         <ToastContainer autoClose={3000} />
       </div>
     );
