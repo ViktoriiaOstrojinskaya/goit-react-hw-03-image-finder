@@ -1,4 +1,7 @@
 //import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
+//import 'react-toastify/dist/ReactToastify.css';
+
 import React, { Component } from 'react';
 import ImageGallery from './ImageGallery/ImageGallery';
 import { Modal } from './Modal/Modal';
@@ -10,17 +13,7 @@ class App extends Component {
     imageName: '',
   };
 
-  // async componentDidMount() {
-  //   axios.defaults.baseURL = 'https://pixabay.com/api/';
-  //   const KEY = '30725538-60cf17fec7c19eff2b1d4a894';
-  //   const perPage = 12;
-  //   const response = await axios.get(
-  //     `?q=cat&page=1&key=${KEY}&image_type=photo&orientation=horizontal&per_page=${perPage}`
-  //   );
-  //   this.setState({ articles: response.data.hits });
-  // }
-
-  handleGallerySubmit = imageName => {
+  handleSearchBarSubmit = imageName => {
     this.setState({ imageName });
   };
 
@@ -36,11 +29,12 @@ class App extends Component {
           // color: '#010101',
         }}
       >
-        <Searchbar onSubmit={this.handleGallerySubmit} />
+        <Searchbar onSubmit={this.handleSearchBarSubmit} />
 
-        {this.state.image}
         <ImageGallery searchName={this.state.imageName} />
         <Modal />
+        <button type="button">Load more</button>
+        <ToastContainer autoClose={3000} />
       </div>
     );
   }
