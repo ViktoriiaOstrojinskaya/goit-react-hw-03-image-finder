@@ -7,7 +7,9 @@ class Searchbar extends Component {
   };
 
   handleChangeName = event => {
-    this.setState({ imageName: event.currentTarget.value });
+    this.setState({
+      imageName: event.currentTarget.value.toLowerCase(),
+    });
   };
 
   handleSubmit = event => {
@@ -18,6 +20,7 @@ class Searchbar extends Component {
       return;
     }
     this.props.onSubmit(this.state.imageName);
+
     this.setState({ imageName: '' });
   };
 
