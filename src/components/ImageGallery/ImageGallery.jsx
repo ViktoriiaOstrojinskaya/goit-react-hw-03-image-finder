@@ -2,6 +2,7 @@
 import { Vortex } from 'react-loader-spinner';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Component } from 'react';
+import { ImageGalleryBox } from './ImageGallery.styled';
 //import API from '../services/api';
 
 class ImageGallery extends Component {
@@ -60,7 +61,9 @@ class ImageGallery extends Component {
             colors={['yellow', 'blue', 'yellow', 'blue', 'yellow', 'blue']}
           />
         )}
-        <ul>{images && <ImageGalleryItem images={images} />}</ul>
+        <ImageGalleryBox>
+          {images && <ImageGalleryItem images={images} />}
+        </ImageGalleryBox>
       </>
     );
   }
