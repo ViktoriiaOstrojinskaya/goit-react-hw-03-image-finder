@@ -15,18 +15,18 @@ class ImageGallery extends Component {
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.searchName;
     const nextName = this.props.searchName;
-    // const prevPage = prevState.pageNumber;
-    // const nextPage = this.state.pageNumber;
+    const prevPage = prevProps.page;
+    const nextPage = this.props.page;
 
     const baseURL = 'https://pixabay.com/api/';
     const KEY = '30725538-60cf17fec7c19eff2b1d4a894';
     const perPage = 12;
 
-    if (prevName !== nextName) {
+    if (prevName !== nextName || prevPage !== nextPage) {
       this.setState({ loading: true, images: [] });
       return (
         fetch(
-          `${baseURL}?q=${nextName}&page=1&key=${KEY}&image_type=photo&orientation=horizontal&per_page=${perPage}`
+          `${baseURL}?q=${nextName}&page=${nextPage}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=${perPage}`
         )
           .then(response => {
             if (response.ok) {
@@ -46,6 +46,7 @@ class ImageGallery extends Component {
 
   render() {
     const { images, loading, error } = this.state;
+    const { page } = this.props;
 
     return (
       <>
@@ -61,7 +62,7 @@ class ImageGallery extends Component {
             colors={['yellow', 'blue', 'yellow', 'blue', 'yellow', 'blue']}
           />
         )}
-        <ImageGalleryBox>
+        <ImageGalleryBox page={page}>
           {images && <ImageGalleryItem images={images} />}
         </ImageGalleryBox>
       </>

@@ -35,7 +35,7 @@ class App extends Component {
         <Searchbar onSubmit={this.handleSearchBarSubmit} />
         <ImageGallery
           searchName={this.state.imageName}
-          onSelect={this.selectImage}
+          page={this.state.page}
         />
 
         {/* <ModalForImage /> */}
