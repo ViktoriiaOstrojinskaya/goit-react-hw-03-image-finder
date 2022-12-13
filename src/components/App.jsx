@@ -4,23 +4,30 @@ import 'react-toastify/dist/ReactToastify.css';
 import React, { Component } from 'react';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Searchbar from './Searchbar/Searchbar';
-import Button from './Button/Button';
+import { Button } from './Button/Button';
 import { MainPage } from './App.styled';
 //import { ModalForImage } from './Modal/Modal';
 
 class App extends Component {
   state = {
     imageName: '',
-    page: 1,
+    currentPage: 1,
   };
 
   handleSearchBarSubmit = imageName => {
     this.setState({ imageName });
   };
 
-  handleLoadMore = page => {
-    this.setState({ page });
+  handlePageSubmit = currentPage => {
+    this.setState({ currentPage });
   };
+
+  loadMore = () => {
+    this.setState(prevState => ({
+      currentPage: prevState + 1,
+    }));
+  };
+
   // selectImage = imageURL => {
   //   this.setState({ selectedImage: imageURL });
   // };
@@ -35,11 +42,11 @@ class App extends Component {
         <Searchbar onSubmit={this.handleSearchBarSubmit} />
         <ImageGallery
           searchName={this.state.imageName}
-          page={this.state.page}
+          currentPage={this.state.currentPage}
+          onSubmit={this.handlePageSubmit}
         />
-
         {/* <ModalForImage /> */}
-        <Button loadMore={this.handleLoadMore} />
+        <Button onClick={this.loadMore} currentPage={this.state.currentPage} />
         <ToastContainer autoClose={3000} />
       </MainPage>
     );

@@ -11,6 +11,7 @@ import {
 class Searchbar extends Component {
   state = {
     imageName: '',
+    currentPage: 1,
   };
 
   handleChangeName = event => {
@@ -27,7 +28,6 @@ class Searchbar extends Component {
       return;
     }
     this.props.onSubmit(this.state.imageName);
-
     this.setState({ imageName: '' });
   };
 

@@ -15,14 +15,16 @@ class ImageGallery extends Component {
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.searchName;
     const nextName = this.props.searchName;
-    const prevPage = prevProps.page;
-    const nextPage = this.props.page;
+    const prevPage = prevProps.currentPage;
+    const nextPage = this.props.currentPage;
 
     const baseURL = 'https://pixabay.com/api/';
     const KEY = '30725538-60cf17fec7c19eff2b1d4a894';
     const perPage = 12;
 
     if (prevName !== nextName || prevPage !== nextPage) {
+      console.log(prevPage);
+      console.log(nextPage);
       this.setState({ loading: true, images: [] });
       return (
         fetch(
@@ -46,7 +48,7 @@ class ImageGallery extends Component {
 
   render() {
     const { images, loading, error } = this.state;
-    const { page } = this.props;
+    const { currentPage } = this.props;
 
     return (
       <>
@@ -62,7 +64,7 @@ class ImageGallery extends Component {
             colors={['yellow', 'blue', 'yellow', 'blue', 'yellow', 'blue']}
           />
         )}
-        <ImageGalleryBox page={page}>
+        <ImageGalleryBox currentPage={currentPage}>
           {images && <ImageGalleryItem images={images} />}
         </ImageGalleryBox>
       </>
