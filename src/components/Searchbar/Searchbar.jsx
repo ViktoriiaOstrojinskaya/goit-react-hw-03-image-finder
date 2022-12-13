@@ -11,7 +11,6 @@ import {
 class Searchbar extends Component {
   state = {
     imageName: '',
-    currentPage: 1,
   };
 
   handleChangeName = event => {
