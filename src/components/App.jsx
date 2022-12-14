@@ -1,15 +1,15 @@
-import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import React, { Component } from 'react';
-import ImageGallery from './ImageGallery/ImageGallery';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 import Searchbar from './Searchbar/Searchbar';
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
 import { MainPage } from './App.styled';
-//import { ModalForImage } from './Modal/Modal';
+import Modal from './Modal/Modal';
 
-axios.defaults.baseURL = 'https://pixabay.com/api/';
+import { fetchImages } from './services/api';
 
 class App extends Component {
   state = {
@@ -19,71 +19,47 @@ class App extends Component {
     error: null,
     page: 1,
     totalImages: 0,
+    showModal: false,
   };
 
   handleSearchBarSubmit = imageName => {
     this.setState({
       imageName,
+      page: 1,
+      images: [],
     });
   };
 
-  async componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(_, prevState) {
     const prevName = prevState.imageName;
     const nextName = this.state.imageName;
     const prevPage = prevState.page;
     const nextPage = this.state.page;
 
-    if (prevName !== nextName) {
-      this.setState({ loading: true, images: [] });
-      console.log(prevName);
-      console.log(nextName);
-
-      const response = await this.APIname();
-
-      if (response.data.hits.length === 0) {
-        return toast.error('We did not find anything fo your request');
-      }
-
-      this.setState({
-        images: response.data.hits,
-        totalImages: response.data.totalHits,
-      });
-    }
-
-    if (prevPage !== nextPage) {
+    if (prevName !== nextName || prevPage !== nextPage) {
       this.setState({ loading: true });
-      console.log(prevPage);
-      console.log(nextPage);
+      try {
+        const response = await fetchImages(nextName, nextPage);
 
-      const response = await this.APIpage();
-      this.setState(prevState => {
-        return {
+        if (response.data.hits.length === 0) {
+          return toast.error(
+            'Sorry, we did not find anything for your request 😢'
+          );
+        }
+
+        this.setState({
+          totalImages: response.data.totalHits,
+        });
+        this.setState(prevState => ({
           images: [...prevState.images, ...response.data.hits],
-        };
-      });
+        }));
+      } catch (error) {
+        return toast.error('Oops, something went wrong 🫣 Try again!');
+      } finally {
+        this.setState({ loading: false });
+      }
     }
   }
-
-  APIname = async () => {
-    try {
-      const responseNewName = await axios.get('', {
-        params: {
-          key: '30725538-60cf17fec7c19eff2b1d4a894',
-          q: this.state.imageName,
-          image_type: 'photo',
-          orientation: 'horizontal',
-          per_page: '12',
-          page: 1,
-        },
-      });
-
-      return responseNewName;
-    } catch (error) {
-      console.log('error', error);
-    } finally {
-      this.setState({ loading: false });
-    }
-  };
 
   loadMore = () => {
     this.setState(prevState => ({
@@ -91,41 +67,32 @@ class App extends Component {
     }));
   };
 
-  APIpage = async () => {
-    try {
-      const responseNewPage = await axios.get('', {
-        params: {
-          key: '30725538-60cf17fec7c19eff2b1d4a894',
-          q: this.state.imageName,
-          image_type: 'photo',
-          orientation: 'horizontal',
-          per_page: '12',
-          page: this.state.page,
-        },
-      });
-      return responseNewPage;
-    } catch (error) {
-      console.log('error', error);
-    } finally {
-      this.setState({ loading: false });
-    }
+  openModal = event => {
+    this.setState({ showModal: true });
+  };
+
+  closeModal = event => {
+    this.setState({ showModal: false });
   };
 
   render() {
+    const { images, imageName, loading, page, showModal } = this.state;
+
     const maxPage = Math.ceil(this.state.totalImages / 12);
-    const showButton =
-      this.state.images.length > 0 && this.state.page < maxPage;
+    const showButton = images.length > 0 && page < maxPage;
 
     return (
       <MainPage>
         <Searchbar onSubmit={this.handleSearchBarSubmit} />
         <ImageGallery
-          searchName={this.state.imageName}
-          images={this.state.images}
+          searchName={imageName}
+          images={images}
+          showModal={this.openModal}
         />
-        {this.state.loading && <Loader />}
+        {loading && <Loader />}
         {showButton && <Button onClick={this.loadMore} />}
-        <ToastContainer autoClose={3000} />
+        {showModal && <Modal onClose={this.closeModal} />}
+        <ToastContainer autoClose={3000} theme="colored" />
       </MainPage>
     );
   }

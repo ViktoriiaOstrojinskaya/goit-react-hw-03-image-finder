@@ -1,11 +1,18 @@
+import { Component } from 'react';
 import { Overlay, ModalImage } from './Modal.styled';
 
-export const ModalForImage = () => {
-  return (
-    <Overlay>
-      <ModalImage>
-        <img src="" alt="" />
-      </ModalImage>
-    </Overlay>
-  );
-};
+class Modal extends Component {
+  render() {
+    const { onClick } = this.props;
+    return (
+      <Overlay>
+        <ModalImage>
+          <p>Hello, I am modal window</p>
+          <img src="" alt="" onClick={onClick} />
+        </ModalImage>
+      </Overlay>
+    );
+  }
+}
+
+export default Modal;

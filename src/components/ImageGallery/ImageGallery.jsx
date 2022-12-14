@@ -1,22 +1,16 @@
-//import { toast } from 'react-toastify';
-
-import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
-import { Component } from 'react';
+import PropTypes from 'prop-types';
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { ImageGalleryBox } from './ImageGallery.styled';
-//import API from '../services/api';
 
-class ImageGallery extends Component {
-  render() {
-    const { images, searchName } = this.props;
+export const ImageGallery = ({ images, searchName, showModal }) => (
+  <>
+    <ImageGalleryBox searchName={searchName}>
+      {images && <ImageGalleryItem images={images} onClick={showModal} />}
+    </ImageGalleryBox>
+  </>
+);
 
-    return (
-      <>
-        <ImageGalleryBox searchName={searchName}>
-          {images && <ImageGalleryItem images={images} />}
-        </ImageGalleryBox>
-      </>
-    );
-  }
-}
-
-export default ImageGallery;
+ImageGallery.propTypes = {
+  images: PropTypes.array.isRequired,
+  searchName: PropTypes.string.isRequired,
+};
