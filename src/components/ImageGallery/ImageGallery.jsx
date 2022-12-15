@@ -13,4 +13,5 @@ export const ImageGallery = ({ images, searchName, onSelect }) => (
 ImageGallery.propTypes = {
   images: PropTypes.array.isRequired,
   searchName: PropTypes.string.isRequired,
+  onSelect: PropTypes.func.isRequired,
 };
