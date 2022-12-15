@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import { ImageBox, ImageItem } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ images, showModal }) => (
+export const ImageGalleryItem = ({ images, onSelect }) => (
   <>
-    {images.map(({ id, webformatURL, tags }) => (
+    {images.map(({ id, webformatURL, tags, largeImageURL }) => (
       <ImageBox key={id}>
-        <ImageItem src={webformatURL} alt={tags} onClick={showModal} />
+        <ImageItem
+          src={webformatURL}
+          alt={tags}
+          onClick={() => onSelect(largeImageURL)}
+        />
       </ImageBox>
     ))}
   </>

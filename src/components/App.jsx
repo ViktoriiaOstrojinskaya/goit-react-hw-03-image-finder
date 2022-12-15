@@ -1,15 +1,13 @@
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import React, { Component } from 'react';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import Searchbar from './Searchbar/Searchbar';
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
 import { MainPage } from './App.styled';
-import Modal from './Modal/Modal';
-
 import { fetchImages } from './services/api';
+import { Modal } from './Modal/Modal';
 
 class App extends Component {
   state = {
@@ -20,6 +18,7 @@ class App extends Component {
     page: 1,
     totalImages: 0,
     showModal: false,
+    selectedImage: null,
   };
 
   handleSearchBarSubmit = imageName => {
@@ -67,16 +66,20 @@ class App extends Component {
     }));
   };
 
-  openModal = event => {
+  handleSelectImage = imageURL => {
+    this.setState({ selectedImage: imageURL });
     this.setState({ showModal: true });
   };
 
   closeModal = event => {
-    this.setState({ showModal: false });
+    if (event.target.nodeName === 'DIV' || event.code === 'Escape') {
+      this.setState({ showModal: false });
+    }
   };
 
   render() {
-    const { images, imageName, loading, page, showModal } = this.state;
+    const { images, imageName, loading, page, selectedImage, showModal } =
+      this.state;
 
     const maxPage = Math.ceil(this.state.totalImages / 12);
     const showButton = images.length > 0 && page < maxPage;
@@ -87,11 +90,11 @@ class App extends Component {
         <ImageGallery
           searchName={imageName}
           images={images}
-          showModal={this.openModal}
+          onSelect={this.handleSelectImage}
         />
         {loading && <Loader />}
         {showButton && <Button onClick={this.loadMore} />}
-        {showModal && <Modal onClose={this.closeModal} />}
+        {showModal && <Modal src={selectedImage} onClose={this.closeModal} />}
         <ToastContainer autoClose={3000} theme="colored" />
       </MainPage>
     );

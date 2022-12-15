@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { ImageGalleryBox } from './ImageGallery.styled';
 
-export const ImageGallery = ({ images, searchName, showModal }) => (
+export const ImageGallery = ({ images, searchName, onSelect }) => (
   <>
     <ImageGalleryBox searchName={searchName}>
-      {images && <ImageGalleryItem images={images} onClick={showModal} />}
+      {images && <ImageGalleryItem images={images} onSelect={onSelect} />}
     </ImageGalleryBox>
   </>
 );

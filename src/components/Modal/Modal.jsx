@@ -1,18 +1,24 @@
 import { Component } from 'react';
 import { Overlay, ModalImage } from './Modal.styled';
 
-class Modal extends Component {
+export class Modal extends Component {
+  componentDidMount() {
+    const { onClose } = this.props;
+    window.addEventListener('keydown', onClose);
+  }
+  componentWillUnmount() {
+    const { onClose } = this.props;
+    window.removeEventListener('keydown', onClose);
+  }
+
   render() {
-    const { onClick } = this.props;
+    const { src, onClose } = this.props;
     return (
-      <Overlay>
+      <Overlay onClick={onClose}>
         <ModalImage>
-          <p>Hello, I am modal window</p>
-          <img src="" alt="" onClick={onClick} />
+          <img src={src} alt="bigsize" />
         </ModalImage>
       </Overlay>
     );
   }
 }
-
-export default Modal;
